@@ -18,8 +18,9 @@
    в него соответствующие значения
 """
 
-from PySide6 import QtWidgets
+from PySide6 import QtWidgets, QtGui
 from PySide6.QtWidgets import QLCDNumber
+
 
 from ui.d_eventfilter_settings import Ui_Form
 
@@ -45,6 +46,30 @@ class Window(QtWidgets.QWidget):
         self.ui.dial.valueChanged.connect(self.dial_touch)
         self.ui.horizontalSlider.valueChanged.connect(self.slider_touch)
         self.ui.comboBox.currentIndexChanged.connect(self.cb_touch)
+
+    def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
+        """
+        Событие нажатия на клавиатуру
+
+        :param event: QtGui.QKeyEvent
+        :return: None
+        """
+
+        print("#:", event.key(), "-------> text:", event.text())
+        if event.key() == 43:  # +
+            self.pressed_plus()
+        if event.key() == 45:  # -
+            self.pressed_minus()
+
+    def pressed_plus(self):
+        dial_value = self.ui.dial.value()
+        dial_value += 1
+        self.ui.dial.setValue(dial_value)
+
+    def pressed_minus(self):
+        dial_value = self.ui.dial.value()
+        dial_value -= 1
+        self.ui.dial.setValue(dial_value)
 
     def cb_touch(self):
         curr_index = self.ui.comboBox.currentIndex()
