@@ -50,7 +50,6 @@ class Window(QtWidgets.QWidget):
     def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
         """
         Событие нажатия на клавиатуру
-
         :param event: QtGui.QKeyEvent
         :return: None
         """
@@ -61,17 +60,26 @@ class Window(QtWidgets.QWidget):
         if event.key() == 45:  # -
             self.pressed_minus()
 
-    def pressed_plus(self):
+    def pressed_plus(self) -> None:
+        """
+        Увеличение значения при нажатии на "+"
+        """
         dial_value = self.ui.dial.value()
         dial_value += 1
         self.ui.dial.setValue(dial_value)
 
-    def pressed_minus(self):
+    def pressed_minus(self) -> None:
+        """
+        Уменьшение значения при нажатии на "-"
+        """
         dial_value = self.ui.dial.value()
         dial_value -= 1
         self.ui.dial.setValue(dial_value)
 
-    def cb_touch(self):
+    def cb_touch(self) -> None:
+        """
+        Изменение системы счисления режима отображения LCD при выборе соответствующего значения
+        """
         curr_index = self.ui.comboBox.currentIndex()
         if curr_index == 0:
             self.ui.lcdNumber.setMode(QLCDNumber.Hex)
@@ -87,12 +95,18 @@ class Window(QtWidgets.QWidget):
             print(self.ui.lcdNumber.mode())
 
 
-    def dial_touch(self):
+    def dial_touch(self) -> None:
+        """
+        Изменение показаний при изменении QDial
+        """
         print(str(self.ui.dial.value()))
         self.ui.lcdNumber.display(self.ui.dial.value())
         self.ui.horizontalSlider.setValue(self.ui.dial.value())
 
-    def slider_touch(self):
+    def slider_touch(self) -> None:
+        """
+        Изменение показаний при изменениии QSlider
+        """
         print(str(self.ui.horizontalSlider.value()))
         self.ui.lcdNumber.display(self.ui.horizontalSlider.value())
         self.ui.dial.setValue(self.ui.horizontalSlider.value())
