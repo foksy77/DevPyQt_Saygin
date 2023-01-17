@@ -44,12 +44,14 @@ class Window(QtWidgets.QWidget):
     def changeEvent(self, event):
 
         # print(f"{tstamp()}changeEvent: {event}")
+        print(self.windowState())
         if event.type() == QtCore.QEvent.Type.WindowStateChange:
             # print(f"{tstamp()}WindowStateChange")
             if self.windowState() == QtCore.Qt.WindowState.WindowMaximized:
                 print(f"{tstamp()}WindowMaximized")
             elif self.windowState() == QtCore.Qt.WindowState.WindowMinimized:
                 print(f"{tstamp()}WindowMinimized")
+
         if event.type() == QtCore.QEvent.Type.ActivationChange:
             # print(f"{tstamp()}ActivationChange: {QtCore.Qt.WindowState.WindowActive}")
             if self.windowState() == QtCore.Qt.WindowState.WindowActive:

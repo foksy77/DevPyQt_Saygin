@@ -18,12 +18,10 @@
    в него соответствующие значения
 """
 
-from PySide6 import QtWidgets, QtGui
+from PySide6 import QtWidgets, QtGui, QtCore
 from PySide6.QtWidgets import QLCDNumber
 
-
 from ui.d_eventfilter_settings import Ui_Form
-
 
 
 class Window(QtWidgets.QWidget):
@@ -33,14 +31,31 @@ class Window(QtWidgets.QWidget):
         self.ui = Ui_Form()
         self.ui.setupUi(self)
 
+        self.settings = QtCore.QSettings("d_eventfilter_settings")
+
         self.initSignals()
         self.initUI()
+
+        self.loadSettings()
+
+    def loadSettings(self) -> None:
+        print("Load")
+        print(self.settings.value("Mode", ""), type(self.settings.value("Mode", "")))
+        print(self.settings.value("LCD", ""), type(self.settings.value("LCD", "")))
+        self.ui.comboBox.setCurrentIndex(self.settings.value("Mode", ""))
+        self.ui.horizontalSlider.setValue(self.settings.value("LCD", ""))
+
+    def closeEvent(self, event: QtGui.QCloseEvent) -> None:
+        self.settings.setValue("Mode", self.ui.comboBox.currentIndex())
+        self.settings.setValue("LCD", self.ui.horizontalSlider.value())
+        print("Saved. OK.")
 
     def initUI(self):
         self.ui.comboBox.addItems(['Hex', 'Dec', 'Oct', 'Bin'])
         self.ui.comboBox.setCurrentIndex(1)
         self.ui.lcdNumber.setMode(QLCDNumber.Dec)
-        print(self.ui.lcdNumber.mode())
+        print(f"Init: mode {self.ui.lcdNumber.mode()} / index {self.ui.comboBox.currentIndex()}"
+              f" / lcd {self.ui.lcdNumber.value()}")
 
     def initSignals(self):
         self.ui.dial.valueChanged.connect(self.dial_touch)
