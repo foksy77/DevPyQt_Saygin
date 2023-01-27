@@ -40,10 +40,10 @@ class Window(QtWidgets.QWidget):
 
     def loadSettings(self) -> None:
         print("Load")
+        self.ui.comboBox.setCurrentIndex(self.settings.value("Mode", 1))
+        self.ui.horizontalSlider.setValue(self.settings.value("LCD", 0))
         print(self.settings.value("Mode", ""), type(self.settings.value("Mode", "")))
         print(self.settings.value("LCD", ""), type(self.settings.value("LCD", "")))
-        self.ui.comboBox.setCurrentIndex(self.settings.value("Mode", ""))
-        self.ui.horizontalSlider.setValue(self.settings.value("LCD", ""))
 
     def closeEvent(self, event: QtGui.QCloseEvent) -> None:
         self.settings.setValue("Mode", self.ui.comboBox.currentIndex())
